@@ -22,6 +22,7 @@ fastify.get('/sse', async function handler (request, reply) {
   }, 1000)
 
   request.raw.on('close', ()=>{
+    console.log('closing sse', request.id, [...clients.keys()])
     clearInterval(interval)
   })
 
@@ -29,7 +30,11 @@ fastify.get('/sse', async function handler (request, reply) {
 
 // Run the server!
 try {
-  await fastify.listen({ port: 3000 })
+  fastify.listen({ port: 3000 })
+    .catch(err=> {
+      fastify.log.error(err)
+      process.exit(1)
+    })
 } catch (err) {
   fastify.log.error(err)
   process.exit(1)
