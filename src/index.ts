@@ -5,6 +5,12 @@ const fastify = Fastify({
 
 const clients = new Map();
 
+fastify.get('/connections', ()=>{
+  return {
+    numberOfConnections: clients.size
+  }
+})
+
 // Declare a route
 fastify.get('/sse', async function handler (request, reply) {
   clients.set(request.id, request);
@@ -28,14 +34,9 @@ fastify.get('/sse', async function handler (request, reply) {
 
 })
 
-// Run the server!
-try {
-  fastify.listen({ port: 3000 })
-    .catch(err=> {
-      fastify.log.error(err)
-      process.exit(1)
-    })
-} catch (err) {
-  fastify.log.error(err)
-  process.exit(1)
-}
+
+fastify.listen({ port: 3000 })
+  .catch(err=> {
+    fastify.log.error(err)
+    process.exit(1)
+  })
