@@ -11,6 +11,12 @@ fastify.get('/connections', ()=>{
   }
 })
 
+fastify.get('/beli', ()=>{
+  return {
+    message: 'bebechita preciosa'
+  }
+})
+
 // Declare a route
 fastify.get('/sse', async function handler (request, reply) {
   clients.set(request.id, request);
